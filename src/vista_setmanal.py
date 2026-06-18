@@ -7,7 +7,6 @@ from src.utils import activitat_te_lloc_el_dia, icona_categoria
 
 
 def mostrar_agenda_setmanal(df_filtrat, mes, mesos):
-    st.subheader("Agenda setmanal")
 
     if mes == "Tots":
         st.info("Selecciona un mes per veure l'agenda setmanal.")

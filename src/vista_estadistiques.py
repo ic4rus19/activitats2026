@@ -3,8 +3,6 @@ import streamlit as st
 
 def mostrar_estadistiques(df):
 
-    st.subheader("Estadístiques")
-
     col1, col2, col3 = st.columns(3)
 
     col1.metric(

@@ -7,7 +7,6 @@ from src.utils import activitat_te_lloc_el_dia, icona_categoria
 
 
 def mostrar_calendari(df_filtrat, mes, mesos):
-    st.subheader("Calendari mensual")
 
     if mes == "Tots":
         st.info("Selecciona un mes als filtres per veure el calendari mensual.")

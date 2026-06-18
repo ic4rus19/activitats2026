@@ -5,7 +5,6 @@ from src.utils import nom_categoria, text_buit
 
 
 def mostrar_vista_interna(df_filtrat):
-    st.subheader("Vista interna")
     text_cerca = st.text_input(
     "Cercar activitat",
     placeholder="Escriu el nom de l'activitat..."

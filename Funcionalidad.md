@@ -1,10 +1,10 @@
-# ACTIVITATS2026 - ESTAT DEL PROJECTE
+# ACTIVITATS2026 - ESTAT DEL PROJECTE (18/06/2026)
 
 ## Situació actual
 
-Activitats2026 ha evolucionat d'una aplicació basada en Excel a una aplicació de gestió d'activitats municipals basada en PostgreSQL.
+L'aplicació ha deixat de dependre d'Excel i funciona principalment sobre PostgreSQL.
 
-La base de dades és actualment la font principal de dades.
+Les activitats es gestionen des de la pròpia aplicació i la base de dades és la font oficial de la informació.
 
 ---
 
@@ -19,8 +19,8 @@ Vistes de consulta i administració
 L'Excel queda com:
 
 * Exportació
-* Còpia de seguretat
-* Recuperació de dades puntual
+* Recuperació puntual de dades
+* Còpia de seguretat complementària
 
 ---
 
@@ -28,103 +28,188 @@ L'Excel queda com:
 
 ### Consulta
 
-* Vista pública
-* Vista interna
-* Calendari mensual
-* Agenda setmanal
-* Ocupació d'espais
+✅ Agenda pública
+
+✅ Vista interna
+
+✅ Calendari mensual
+
+✅ Agenda setmanal
+
+✅ Ocupació d'espais
 
 ### Administració
 
-* Crear activitats
-* Editar activitats
-* Eliminar activitats
-* Cercar activitats
-* Exportar a Excel
+✅ Crear activitats
 
-### Validacions
+✅ Editar activitats
 
-* Control de solapaments
-* Control d'espais
-* Validació de dates
-* Validació d'hores
+✅ Eliminar activitats
+
+✅ Cercar activitats
+
+✅ Exportar activitats a Excel
 
 ---
 
-## Millores implementades
+## Base de dades
 
-### Refactorització
+✅ PostgreSQL operatiu
 
-L'aplicació està dividida en mòduls:
+✅ Taula activitats
 
-* vista_publica.py
-* vista_interna.py
-* vista_calendari.py
-* vista_setmanal.py
-* vista_espais.py
-* vista_admin.py
-* db.py
-* utils.py
+✅ Taula espais
 
-app.py ha passat de més de 700 línies a aproximadament 160 línies.
+✅ Gestió d'espais des de PostgreSQL
 
-### Espais
-
-S'ha creat la taula:
-
-espais
-
-Els espais es gestionen des de PostgreSQL.
-
-Els formularis utilitzen llistes oficials d'espais.
-
-### Dies de la setmana
-
-Nova activitat:
-
-* Selecció múltiple de dies
-* Eliminació d'errors d'escriptura
-
-Editar activitat:
-
-* Selecció múltiple de dies
-* Modificació simplificada
-
-### Experiència d'usuari
-
-* Missatges de confirmació
-* Actualització automàtica de dades
-* Reinicialització del formulari després de guardar
+Els espais es seleccionen mitjançant desplegables oficials.
 
 ---
 
-## Aspectes pendents
+## Dies de la setmana
 
-### Solapaments recurrents
+Nou sistema implementat mitjançant selecció múltiple:
 
-Millorar la detecció de conflictes tenint en compte:
+✅ Dilluns
 
-* dies_setmana
-* activitats recurrents
-* activitats de diversos dies
+✅ Dimarts
 
-### Calendari
+✅ Dimecres
 
-Revisar activitats recurrents de diversos dies per assegurar una visualització correcta.
+✅ Dijous
 
-### Seguretat
+✅ Divendres
 
-Implementar sistema de còpies de seguretat PostgreSQL.
+✅ Dissabte
+
+✅ Diumenge
+
+Ja no es depèn de textos lliures com:
+
+* Cap de setmana
+* Dilluns a Divendres
+
+---
+
+## Solapaments
+
+Implementat:
+
+✅ Control de solapaments en crear activitats
+
+✅ Control de solapaments en editar activitats
+
+Pendent:
+
+🔲 Revisar possibles casos especials de recurrències llargues si apareixen durant les proves reals.
+
+---
+
+## Qualitat de les dades
+
+Corregits:
+
+✅ Biodansa
+
+✅ Caliu
+
+✅ Tipus unificats
+
+✅ Dies setmana normalitzats
+
+Les dades actuals es consideren consistents.
+
+---
+
+## Seguretat
+
+### Backup PostgreSQL
+
+✅ Realitzat correctament
+
+Fitxer:
+
+BACKUPS/activitats2026_2026-06-18.backup
+
+### Exportació Excel
+
+✅ Operativa
+
+✅ Validada correctament
+
+---
+
+## Control de versions
+
+### Git
+
+✅ Repositori local creat
+
+### GitHub
+
+✅ Repositori creat
+
+https://github.com/ic4rus19/activitats2026
+
+✅ Primer commit
+
+✅ Primer push
+
+Repositori sincronitzat correctament.
+
+---
+
+## Millores visuals pendents
+
+Abans de producció:
+
+🔲 Revisar distribució de Vista Administració
+
+🔲 Millorar capçaleres i icones
+
+🔲 Revisar textos i missatges
+
+🔲 Revisar formularis
+
+🔲 Revisar experiència d'usuari
+
+🔲 Revisar visualització en pantalles petites
+
+---
+
+## Producció
+
+Encara NO.
+
+Abans del desplegament:
+
+1. Millores visuals.
+2. Proves amb 1 o 2 usuaris reals.
+3. Correcció d'incidències detectades.
+4. Dockerització de l'aplicació.
+5. Desplegament definitiu.
 
 ---
 
 ## Properes actuacions
 
-1. Primer backup PostgreSQL.
-2. Publicació del projecte a GitHub.
-3. Dockerització de l'aplicació.
-4. Documentació definitiva.
-5. Revisió funcional completa.
+### Prioritat alta
+
+🔲 Revisió visual completa
+
+🔲 Proves amb usuaris
+
+### Prioritat mitjana
+
+🔲 Dockerització de l'aplicació
+
+🔲 Documentació tècnica
+
+### Prioritat baixa
+
+🔲 Estadístiques avançades
+
+🔲 Funcionalitats addicionals
 
 ---
 
@@ -132,13 +217,10 @@ Implementar sistema de còpies de seguretat PostgreSQL.
 
 Fase actual:
 
-Aplicació funcional en producció interna.
+CONSOLIDACIÓ I VALIDACIÓ
 
-Nivell d'avanç estimat:
+Nivell estimat d'avanç:
 
-85%-90%
+95%
 
-Les funcionalitats principals estan implementades i la fase actual és principalment de validació, correcció de casos especials i millora de l'experiència d'usuari.
-
-
-El proyecto ya no está en fase de desarrollo inicial. Está en fase de consolidación y pruebas reales. La arquitectura está decidida (PostgreSQL + Streamlit), el CRUD funciona y los próximos pasos son robustez, copias de seguridad, GitHub y Docker. 🚀
+L'aplicació és funcional, estable i ja disposa de base de dades PostgreSQL, còpies de seguretat, control de versions amb Git i repositori GitHub operatiu.

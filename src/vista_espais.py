@@ -6,7 +6,6 @@ from src.db import llegir_espais
 
 
 def mostrar_ocupacio_espais(df_filtrat, mes, mesos):
-    st.subheader("Ocupació d'espais")
 
     if mes == "Tots":
         st.info("Selecciona un mes per veure l'ocupació d'espais.")
