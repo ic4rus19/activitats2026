@@ -1,5 +1,10 @@
 import pandas as pd
 import streamlit as st
+import base64
+
+def get_base64_image(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
 
 from src.vista_publica import mostrar_vista_publica
 from src.vista_interna import mostrar_vista_interna
@@ -14,13 +19,62 @@ from src.db import (
     llegir_espais,
 )
 
+# /////////////////////FAVICON
 st.set_page_config(
     page_title="Gestió d'Activitats Municipals",
+    page_icon="img/favicon-32x32.png",
     layout="wide"
 )
+# /////////////////////Escudo presentacion
+logo = get_base64_image("img/favicon-32x32.png")
 
-st.title("Gestió d'Activitats Municipals")
-st.caption("Ajuntament de Vallgorguina")
+st.html(f"""
+<div class="header-app">
+
+    <img src="data:image/png;base64,{logo}" class="logo-app">
+
+    <div class="title-app">
+        Ajuntament de Vallgorguina
+    </div>
+
+    <img src="data:image/png;base64,{logo}" class="logo-app">
+
+</div>
+
+<style>
+.header-app {{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}}
+
+.logo-app {{
+    width: 45px;
+    height: auto;
+}}
+
+.title-app {{
+    font-size: 34px;
+    font-weight: 700;
+    text-align: center;
+}}
+
+@media (max-width: 768px) {{
+
+    .logo-app {{
+        width: 28px;
+    }}
+
+    .title-app {{
+        font-size: 20px;
+    }}
+}}
+</style>
+""")
+
+# st.title("Gestió d'Activitats Municipals")
 
 df = llegir_activitats_app()
 
@@ -57,15 +111,15 @@ with st.sidebar:
 
     opcio_menu = st.radio(
         "Selecciona una vista",
-        [
-            "🏠 Vista pública",
-            "📋 Vista interna",
-            "📅 Calendari mensual",
-            "🗓️ Agenda setmanal",
-            "🏢 Ocupació d'espais",
-            "🛠️ Administració",
-            "📊 Estadístiques",
-        ]
+    [
+        "🏠 Agenda pública setmanal",
+        "📋 Gestió interna",
+        "📅 Calendari mensual",
+        "🗓️ Agenda setmanal",
+        "🏢 Gestió d'espais",
+        "🛠️ Administració",
+        "📊 Estadístiques",
+    ]
     )
 
     if opcio_menu != "🛠️ Administració":
@@ -129,23 +183,25 @@ if mes != "Tots":
         (df_filtrat["Data fi"] >= inici_mes)
     ]
 
-titols = {
-    "🏠 Vista pública": "Vista pública",
-    "📋 Vista interna": "Vista interna",
+titol_vista = {
+    "🏠 Agenda pública setmanal": "Agenda pública setmanal",
+    "📋 Gestió interna": "Gestió interna",
     "📅 Calendari mensual": "Calendari mensual",
     "🗓️ Agenda setmanal": "Agenda setmanal",
-    "🏢 Ocupació d'espais": "Ocupació d'espais",
+    "🏢 Gestió d'espais": "Gestió d'espais",
     "🛠️ Administració": "Administració",
     "📊 Estadístiques": "Estadístiques",
 }
 
-st.header(titols[opcio_menu])
-st.divider()
+st.subheader(titol_vista[opcio_menu])
 
-if opcio_menu == "🏠 Vista pública":
-    mostrar_vista_publica(df_filtrat)
+# st.header(titols[opcio_menu])
+# st.divider()
 
-elif opcio_menu == "📋 Vista interna":
+if opcio_menu == "🏠 Agenda pública setmanal":
+    mostrar_vista_publica(df)
+
+elif opcio_menu == "📋 Gestió interna":
     mostrar_vista_interna(df_filtrat)
 
 elif opcio_menu == "📅 Calendari mensual":
@@ -154,7 +210,7 @@ elif opcio_menu == "📅 Calendari mensual":
 elif opcio_menu == "🗓️ Agenda setmanal":
     mostrar_agenda_setmanal(df_filtrat, mes, mesos)
 
-elif opcio_menu == "🏢 Ocupació d'espais":
+elif opcio_menu == "🏢 Gestió d'espais":
     mostrar_ocupacio_espais(df_filtrat, mes, mesos)
 
 elif opcio_menu == "🛠️ Administració":

@@ -6,14 +6,14 @@ from src.utils import nom_categoria, text_buit
 
 def mostrar_vista_interna(df_filtrat):
     text_cerca = st.text_input(
-    "Cercar activitat",
-    placeholder="Escriu el nom de l'activitat..."
-)
+        "Cercar activitat",
+        placeholder="Escriu el nom de l'activitat..."
+    )
 
     if text_cerca:
         df_filtrat = df_filtrat[
-        df_filtrat["Activitat"].str.contains(text_cerca, case=False, na=False)
-    ]
+            df_filtrat["Activitat"].str.contains(text_cerca, case=False, na=False)
+        ]
 
     st.write(f"S'han trobat {len(df_filtrat)} activitats.")
 

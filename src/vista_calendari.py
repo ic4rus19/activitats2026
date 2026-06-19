@@ -25,6 +25,7 @@ def mostrar_calendari(df_filtrat, mes, mesos):
     )
 
     dies_caps = ["Dl", "Dt", "Dc", "Dj", "Dv", "Ds", "Dg"]
+
     caps = st.columns(7)
 
     for col, nom_dia in zip(caps, dies_caps):
@@ -37,36 +38,62 @@ def mostrar_calendari(df_filtrat, mes, mesos):
 
         for i, numero_dia in enumerate(setmana):
             with cols[i]:
+
                 if numero_dia == 0:
                     st.write("")
+
                 else:
                     dia = pd.Timestamp(any_actual, mes_num, numero_dia)
 
                     with st.container(border=True):
+
                         avui = pd.Timestamp.today().normalize()
 
+                        nom_dia_actual = dies_caps[i]
+
                         if dia.normalize() == avui:
-                            st.markdown(f"### 🔴 {numero_dia}")
+                            st.markdown(
+                                f"### 🔴 {nom_dia_actual} {numero_dia}"
+                            )
                         else:
-                            st.markdown(f"**{numero_dia}**")
+                            st.markdown(
+                                f"**{nom_dia_actual} {numero_dia}**"
+                            )
 
                         activitats_dia = df_filtrat[
                             df_filtrat.apply(
-                                lambda fila: activitat_te_lloc_el_dia(fila, dia),
+                                lambda fila: activitat_te_lloc_el_dia(
+                                    fila,
+                                    dia
+                                ),
                                 axis=1
                             )
                         ].sort_values("Hora inici")
 
                         if activitats_dia.empty:
                             st.caption("—")
+
                         else:
                             for _, fila in activitats_dia.iterrows():
-                                hora_inici = str(fila["Hora inici"])[:5]
-                                hora_fi = str(fila["Hora fi"])[:5]
 
-                                icona = icona_categoria(fila["Origen"])
+                                hora_inici = str(
+                                    fila["Hora inici"]
+                                )[:5]
+
+                                hora_fi = str(
+                                    fila["Hora fi"]
+                                )[:5]
+
+                                icona = icona_categoria(
+                                    fila["Origen"]
+                                )
 
                                 st.caption(
-                                    f"{icona} {hora_inici} - {hora_fi} · {fila['Activitat']}"
+                                    f"{icona} "
+                                    f"{hora_inici} - {hora_fi} · "
+                                    f"{fila['Activitat']}"
                                 )
-                                st.caption(f"📍 {fila['Espai']}")
+
+                                st.caption(
+                                    f"📍 {fila['Espai']}"
+                                )

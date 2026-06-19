@@ -1,47 +1,73 @@
+import pandas as pd
 import streamlit as st
+
+from src.utils import activitat_te_lloc_el_dia
 
 
 def mostrar_vista_publica(df_filtrat):
-    st.subheader("Agenda pública")
+
+    avui = pd.Timestamp.today().normalize()
+    
+    inici_setmana = avui - pd.Timedelta(days=avui.weekday())
+    fi_setmana = inici_setmana + pd.Timedelta(days=6)    
+
+    st.caption(
+    f"Setmana del {inici_setmana.strftime('%d/%m/%Y')} "
+    f"al {fi_setmana.strftime('%d/%m/%Y')}"
+)
 
     df_public = df_filtrat[
         df_filtrat["Publicada"].astype(str).str.lower().isin(["si", "sí"])
     ]
 
-    st.write(f"S'han trobat {len(df_public)} activitats publicades.")
+    df_public = df_public[
+        (df_public["Data inici"] <= fi_setmana) &
+        (df_public["Data fi"] >= inici_setmana)
+    ]
 
-    cols = st.columns(3)
+    noms_dies = {
+        0: "Dilluns",
+        1: "Dimarts",
+        2: "Dimecres",
+        3: "Dijous",
+        4: "Divendres",
+        5: "Dissabte",
+        6: "Diumenge",
+    }
 
-    for i, (_, fila) in enumerate(df_public.sort_values("Data inici").iterrows()):
+    dies_setmana = list(pd.date_range(inici_setmana, fi_setmana))
 
-        dies = {
-            0: "Dilluns",
-            1: "Dimarts",
-            2: "Dimecres",
-            3: "Dijous",
-            4: "Divendres",
-            5: "Dissabte",
-            6: "Diumenge",
-        }
+    for dia in dies_setmana:
+        activitats_dia = df_public[
+            df_public.apply(
+                lambda fila: activitat_te_lloc_el_dia(fila, dia),
+                axis=1
+            )
+        ].sort_values("Hora inici")
 
-        dia_setmana = dies[fila["Data inici"].weekday()]
+        if activitats_dia.empty:
+            continue
 
-        data_inici = (
-            f"{dia_setmana} "
-            f"{fila['Data inici'].strftime('%d/%m/%Y')}"
-        )
+        
+        with st.container(border=True):
+                st.markdown(f"## 📅 {noms_dies[dia.weekday()]}")
+                st.caption(dia.strftime("%d/%m/%Y"))
 
-        data_fi = fila["Data fi"].strftime("%d/%m/%Y")
+                for _, fila in activitats_dia.iterrows():
+                    hora_inici = str(fila["Hora inici"])[:5]
+                    hora_fi = str(fila["Hora fi"])[:5]
 
-        with cols[i % 3]:
-            st.info(
-                f"""
-📅 {data_inici}
- **Fins: 🔴{data_fi}🔴**
+                    st.markdown(
+                        f"""
+🕒 **{hora_inici} - {hora_fi}**
 
 **{fila['Activitat']}**
 
 📍 {fila['Espai']}
 
-🕒 {str(fila['Hora inici'])[:5]} - {str(fila['Hora fi'])[:5]}
-""")
+
+👥 {fila['Organitza']}
+
+---
+"""
+                    )

@@ -30,24 +30,23 @@ def activitat_te_lloc_el_dia(fila, dia):
     return dia_actual in dies_setmana
 
 def nom_categoria(origen):
-    if origen == "ACTIVITATS_PUNTUALS":
+    if origen == "PUNTUAL":
         return "Puntual"
-    if origen == "ACTIVITATS_FIXES":
+    if origen == "FIXA":
         return "Fixa"
-    if origen == "ACTIVITATS_ESTIU":
+    if origen == "ESTIU":
         return "Estiu"
     return origen
 
 
 def icona_categoria(origen):
-    if origen == "ACTIVITATS_PUNTUALS":
+    if origen == "PUNTUAL":
         return "🟠"
-    if origen == "ACTIVITATS_FIXES":
+    if origen == "FIXA":
         return "🔵"
-    if origen == "ACTIVITATS_ESTIU":
+    if origen == "ESTIU":
         return "🟢"
     return "⚪"
-
 
 def text_buit(valor):
     if valor is None:
