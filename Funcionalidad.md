@@ -1,10 +1,12 @@
-# ACTIVITATS2026 - ESTAT DEL PROJECTE (18/06/2026)
+# ACTIVITATS2026 - ESTAT DEL PROJECTE (20/06/2026)
 
 ## Situació actual
 
 L'aplicació ha deixat de dependre d'Excel i funciona principalment sobre PostgreSQL.
 
 Les activitats es gestionen des de la pròpia aplicació i la base de dades és la font oficial de la informació.
+
+Actualment el projecte es troba en fase de consolidació, validació i preparació per a producció.
 
 ---
 
@@ -28,15 +30,15 @@ L'Excel queda com:
 
 ### Consulta
 
-✅ Agenda pública
+✅ Agenda pública setmanal
 
-✅ Vista interna
+✅ Gestió interna
 
 ✅ Calendari mensual
 
 ✅ Agenda setmanal
 
-✅ Ocupació d'espais
+✅ Gestió d'espais
 
 ### Administració
 
@@ -68,7 +70,7 @@ Els espais es seleccionen mitjançant desplegables oficials.
 
 ## Dies de la setmana
 
-Nou sistema implementat mitjançant selecció múltiple:
+Sistema implementat mitjançant selecció múltiple:
 
 ✅ Dilluns
 
@@ -84,10 +86,7 @@ Nou sistema implementat mitjançant selecció múltiple:
 
 ✅ Diumenge
 
-Ja no es depèn de textos lliures com:
-
-* Cap de setmana
-* Dilluns a Divendres
+Ja no es depèn de textos lliures.
 
 ---
 
@@ -98,6 +97,8 @@ Implementat:
 ✅ Control de solapaments en crear activitats
 
 ✅ Control de solapaments en editar activitats
+
+S'ha eliminat la comprovació redundant de solapaments a la vista interna.
 
 Pendent:
 
@@ -115,9 +116,43 @@ Corregits:
 
 ✅ Tipus unificats
 
+✅ Categories normalitzades
+
 ✅ Dies setmana normalitzats
 
 Les dades actuals es consideren consistents.
+
+---
+
+## Interfície
+
+Implementat:
+
+✅ Capçalera institucional
+
+✅ Favicon
+
+✅ Logotips corporatius
+
+✅ Menú reorganitzat
+
+✅ Nomenclatura simplificada
+
+✅ Agenda pública redissenyada
+
+✅ Agenda setmanal millorada
+
+✅ Ordenació per dia i hora
+
+✅ Organitzador visible a les activitats
+
+✅ Cercador a la gestió interna
+
+✅ Millora de la visualització general
+
+✅ Calendari mensual adaptat per a dispositius mòbils
+
+✅ Eliminació de l'any fix 2026
 
 ---
 
@@ -143,37 +178,53 @@ BACKUPS/activitats2026_2026-06-18.backup
 
 ### Git
 
-✅ Repositori local creat
+✅ Repositori local operatiu
 
 ### GitHub
 
-✅ Repositori creat
+✅ Repositori sincronitzat
 
 https://github.com/ic4rus19/activitats2026
 
-✅ Primer commit
+Commits realitzats correctament.
 
-✅ Primer push
-
-Repositori sincronitzat correctament.
+Push validat correctament.
 
 ---
 
-## Millores visuals pendents
+## Millores pendents
 
-Abans de producció:
+### Interfície
 
-🔲 Revisar distribució de Vista Administració
+🔲 Revisió final de la vista Administració
 
-🔲 Millorar capçaleres i icones
-
-🔲 Revisar textos i missatges
+🔲 Revisar textos, icones i missatges
 
 🔲 Revisar formularis
 
 🔲 Revisar experiència d'usuari
 
 🔲 Revisar visualització en pantalles petites
+
+### Validació
+
+🔲 Fer proves amb 1 o 2 usuaris reals
+
+🔲 Corregir incidències detectades
+
+### Documentació
+
+🔲 Actualitzar requirements.txt definitiu
+
+🔲 Revisar documentació funcional
+
+🔲 Documentació tècnica final
+
+### Infraestructura
+
+🔲 Dockerització de l'aplicació
+
+🔲 Preparació del desplegament VPS
 
 ---
 
@@ -183,33 +234,12 @@ Encara NO.
 
 Abans del desplegament:
 
-1. Millores visuals.
-2. Proves amb 1 o 2 usuaris reals.
-3. Correcció d'incidències detectades.
-4. Dockerització de l'aplicació.
-5. Desplegament definitiu.
-
----
-
-## Properes actuacions
-
-### Prioritat alta
-
-🔲 Revisió visual completa
-
-🔲 Proves amb usuaris
-
-### Prioritat mitjana
-
-🔲 Dockerització de l'aplicació
-
-🔲 Documentació tècnica
-
-### Prioritat baixa
-
-🔲 Estadístiques avançades
-
-🔲 Funcionalitats addicionals
+1. Revisió visual final.
+2. Proves amb usuaris.
+3. Correcció d'incidències.
+4. Dockerització.
+5. Desplegament VPS.
+6. Posada en producció.
 
 ---
 
@@ -217,10 +247,28 @@ Abans del desplegament:
 
 Fase actual:
 
-CONSOLIDACIÓ I VALIDACIÓ
+CONSOLIDACIÓ I PREPARACIÓ PER A VALIDACIÓ D'USUARIS
 
 Nivell estimat d'avanç:
 
-95%
+97%
 
-L'aplicació és funcional, estable i ja disposa de base de dades PostgreSQL, còpies de seguretat, control de versions amb Git i repositori GitHub operatiu.
+L'aplicació és estable, funcional i disposa de:
+
+✅ PostgreSQL
+
+✅ Backup validat
+
+✅ Git
+
+✅ GitHub
+
+✅ Exportació Excel
+
+✅ Control de solapaments
+
+✅ Interfície consolidada
+
+El mòdul d'estadístiques ha estat retirat del projecte i es replantejarà en una futura versió si apareixen necessitats reals d'explotació de dades.
+
+El risc tècnic actual és baix i les tasques pendents són principalment de validació, documentació i desplegament.

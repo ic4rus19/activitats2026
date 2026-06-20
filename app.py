@@ -12,7 +12,6 @@ from src.vista_calendari import mostrar_calendari
 from src.vista_setmanal import mostrar_agenda_setmanal
 from src.vista_espais import mostrar_ocupacio_espais
 from src.vista_admin import mostrar_administracio
-from src.vista_estadistiques import mostrar_estadistiques
 
 from src.db import (
     llegir_activitats_app,
@@ -118,7 +117,6 @@ with st.sidebar:
         "🗓️ Agenda setmanal",
         "🏢 Gestió d'espais",
         "🛠️ Administració",
-        "📊 Estadístiques",
     ]
     )
 
@@ -173,7 +171,7 @@ if publicada != "Totes":
 
 if mes != "Tots":
     mes_num = mesos[mes]
-    any_actual = 2026
+    any_actual = pd.Timestamp.today().year
 
     inici_mes = pd.Timestamp(any_actual, mes_num, 1)
     fi_mes = inici_mes + pd.offsets.MonthEnd(1)
@@ -190,7 +188,6 @@ titol_vista = {
     "🗓️ Agenda setmanal": "Agenda setmanal",
     "🏢 Gestió d'espais": "Gestió d'espais",
     "🛠️ Administració": "Administració",
-    "📊 Estadístiques": "Estadístiques",
 }
 
 st.subheader(titol_vista[opcio_menu])
@@ -215,6 +212,3 @@ elif opcio_menu == "🏢 Gestió d'espais":
 
 elif opcio_menu == "🛠️ Administració":
     mostrar_administracio(df)
-
-elif opcio_menu == "📊 Estadístiques":
-    mostrar_estadistiques(df_filtrat)

@@ -6,6 +6,7 @@ import streamlit as st
 from src.utils import activitat_te_lloc_el_dia, icona_categoria
 
 
+# --------------------------------------------Función mostrar calendario
 def mostrar_calendari(df_filtrat, mes, mesos):
 
     if mes == "Tots":
@@ -13,7 +14,7 @@ def mostrar_calendari(df_filtrat, mes, mesos):
         return
 
     mes_num = mesos[mes]
-    any_actual = 2026
+    any_actual = pd.Timestamp.today().year
 
     st.write(f"Calendari de {mes} {any_actual}")
 
@@ -25,11 +26,6 @@ def mostrar_calendari(df_filtrat, mes, mesos):
     )
 
     dies_caps = ["Dl", "Dt", "Dc", "Dj", "Dv", "Ds", "Dg"]
-
-    caps = st.columns(7)
-
-    for col, nom_dia in zip(caps, dies_caps):
-        col.markdown(f"**{nom_dia}**")
 
     calendari = calendar.monthcalendar(any_actual, mes_num)
 

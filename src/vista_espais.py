@@ -12,7 +12,7 @@ def mostrar_ocupacio_espais(df_filtrat, mes, mesos):
         return
 
     mes_num = mesos[mes]
-    any_actual = 2026
+    any_actual = pd.Timestamp.today().year
 
     espais_disponibles = llegir_espais()
 
