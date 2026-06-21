@@ -7,3 +7,8 @@ BACKUPS/
 .streamlit/secrets.toml
 
 .env
+
+# Backups de base de datos
+*.backup
+*.dump
+*.sql

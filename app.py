@@ -108,6 +108,14 @@ espais = llegir_espais()
 with st.sidebar:
     st.title("Menú")
 
+    st.link_button(
+        "🌐 Espais Vallgorguina",
+        "https://www.espaisvallgorguina.cat",
+        use_container_width=True
+    )
+
+    st.divider()
+
     opcio_menu = st.radio(
         "Selecciona una vista",
     [
