@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+
+BACKUPS/
+.git/
+.gitignore
+
+.streamlit/secrets.toml
+.env
+
+data/
