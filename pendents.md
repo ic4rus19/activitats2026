@@ -68,6 +68,16 @@
 
 ✅ Mòdul d'estadístiques retirat del projecte.
 
+✅ Aplicació desplegada al VPS en contenidor Docker.
+
+✅ Accés operatiu mitjançant Nginx i domini:
+
+https://activitats.espaisvallgorguina.cat
+
+✅ PostgreSQL funcionant en contenidor Docker separat.
+
+✅ Aplicació connectada a PostgreSQL mitjançant xarxa Docker.
+
 ---
 
 ## Pendent
@@ -92,9 +102,11 @@
 
 🔲 Actualitzar requirements.txt definitiu.
 
-🔲 Dockerització de l'aplicació.
+🔲 Crear docker-compose.yml per automatitzar el desplegament.
 
-🔲 Preparació del desplegament VPS.
+🔲 Documentar procediment de desplegament i actualització.
+
+🔲 Revisar sistema de backups automàtics de PostgreSQL.
 
 🔲 Documentació tècnica final.
 

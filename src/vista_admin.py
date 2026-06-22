@@ -97,11 +97,13 @@ def mostrar_administracio(df):
         data_inici = col1.date_input(
             "Data inici",
             value=activitat_actual["data_inici"],
+            format="DD/MM/YYYY",
         )
 
         data_fi = col2.date_input(
             "Data fi",
             value=activitat_actual["data_fi"],
+            format="DD/MM/YYYY",
         )
 
         dies_posibles = [
@@ -250,9 +252,17 @@ def mostrar_administracio(df):
         )
 
         col1, col2 = st.columns(2)
-        data_inici = col1.date_input("Data inici")
-        data_fi = col2.date_input("Data fi")
+        
+        data_inici = col1.date_input(
+            "Data inici",
+            format="DD/MM/YYYY",
+        )
 
+        data_fi = col2.date_input(
+            "Data fi",
+            format="DD/MM/YYYY",
+        )
+        
         dies_seleccionats = st.multiselect(
             "Dies setmana",
             [
