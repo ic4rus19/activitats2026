@@ -15,13 +15,44 @@ def get_engine():
 
 
 def llegir_activitats_postgresql():
+    """
+    Lectura general de l'aplicació.
+
+    Només retorna activitats ACTIVES.
+    Les activitats FINALITZADES queden conservades a la base de dades,
+    però no apareixen als calendaris ni a les vistes generals.
+    """
     engine = get_engine()
 
-    consulta = "SELECT * FROM activitats ORDER BY data_inici, hora_inici"
+    consulta = """
+        SELECT *
+        FROM activitats
+        WHERE estat = 'ACTIVA'
+        ORDER BY data_inici, hora_inici
+    """
 
     df = pd.read_sql(consulta, engine)
 
     return df
+
+
+def llegir_totes_activitats_postgresql():
+    """
+    Lectura completa, incloent activitats ACTIVES i FINALITZADES.
+    Útil per administració, històric, exportacions o futures estadístiques.
+    """
+    engine = get_engine()
+
+    consulta = """
+        SELECT *
+        FROM activitats
+        ORDER BY data_inici, hora_inici
+    """
+
+    df = pd.read_sql(consulta, engine)
+
+    return df
+
 
 def llegir_activitats_app():
     df = llegir_activitats_postgresql()
@@ -41,11 +72,13 @@ def llegir_activitats_app():
         "tasques": "Tasques",
         "publicada": "Publicada",
         "categoria": "Origen",
+        "estat": "Estat",
     })
 
     df["Publicada"] = df["Publicada"].apply(lambda x: "Sí" if x else "No")
 
     return df
+
 
 def importar_dataframe_a_postgresql(df):
     engine = get_engine()
@@ -56,10 +89,9 @@ def importar_dataframe_a_postgresql(df):
         if_exists="append",
         index=False
     )
-    
-from sqlalchemy import text
 
-# *************************************************Ingresamos actividad
+
+# ************************************************* Ingressar activitat
 def inserir_activitat(activitat):
     engine = get_engine()
 
@@ -78,7 +110,8 @@ def inserir_activitat(activitat):
             material,
             tasques,
             publicada,
-            categoria
+            categoria,
+            estat
         )
         VALUES (
             :activitat,
@@ -94,14 +127,15 @@ def inserir_activitat(activitat):
             :material,
             :tasques,
             :publicada,
-            :categoria
+            :categoria,
+            :estat
         )
     """)
 
     with engine.begin() as conn:
         conn.execute(consulta, activitat)
-        
-        
+
+
 def activitat_te_lloc_el_dia_db(data_inici, data_fi, dies_setmana, dia):
     dies_setmana = str(dies_setmana).strip().lower()
 
@@ -139,6 +173,7 @@ def hi_ha_solapament(espai, data_inici, data_fi, dies_setmana, hora_inici, hora_
         SELECT *
         FROM activitats
         WHERE espai = :espai
+          AND estat = 'ACTIVA'
           AND data_inici <= :data_fi
           AND data_fi >= :data_inici
           AND hora_inici < :hora_fi
@@ -194,8 +229,13 @@ def hi_ha_solapament(espai, data_inici, data_fi, dies_setmana, hora_inici, hora_
     return pd.DataFrame()
 
 
-# ******************************************     LECTURA DE ACTIVIDADES
+# ****************************************** LECTURA DE ACTIVIDADES ADMIN
 def llegir_activitats_admin():
+    """
+    Administració llegeix totes les activitats,
+    incloent ACTIVES i FINALITZADES,
+    per poder consultar i recuperar històric.
+    """
     engine = get_engine()
 
     consulta = """
@@ -203,14 +243,16 @@ def llegir_activitats_admin():
             id,
             activitat,
             espai,
-            data_inici
+            data_inici,
+            estat
         FROM activitats
         ORDER BY data_inici, activitat
     """
 
     return pd.read_sql(consulta, engine)
 
-# ******************************************      ELIMINAR
+
+# ****************************************** ELIMINAR
 def eliminar_activitat(id_activitat):
     engine = get_engine()
 
@@ -224,6 +266,7 @@ def eliminar_activitat(id_activitat):
             consulta,
             {"id": id_activitat}
         )
+
 
 def obtenir_activitat_per_id(id_activitat):
     engine = get_engine()
@@ -261,7 +304,8 @@ def actualitzar_activitat(id_activitat, activitat):
             material = :material,
             tasques = :tasques,
             publicada = :publicada,
-            categoria = :categoria
+            categoria = :categoria,
+            estat = :estat
         WHERE id = :id
     """)
 
@@ -270,7 +314,16 @@ def actualitzar_activitat(id_activitat, activitat):
     with engine.begin() as conn:
         conn.execute(consulta, activitat)
 
-def hi_ha_solapament_editant(id_activitat, espai, data_inici, data_fi, dies_setmana, hora_inici, hora_fi):
+
+def hi_ha_solapament_editant(
+    id_activitat,
+    espai,
+    data_inici,
+    data_fi,
+    dies_setmana,
+    hora_inici,
+    hora_fi
+):
     engine = get_engine()
 
     consulta = text("""
@@ -278,6 +331,7 @@ def hi_ha_solapament_editant(id_activitat, espai, data_inici, data_fi, dies_setm
         FROM activitats
         WHERE id <> :id
           AND espai = :espai
+          AND estat = 'ACTIVA'
           AND data_inici <= :data_fi
           AND data_fi >= :data_inici
           AND hora_inici < :hora_fi
@@ -332,6 +386,7 @@ def hi_ha_solapament_editant(id_activitat, espai, data_inici, data_fi, dies_setm
         return pd.DataFrame(conflictes)
 
     return pd.DataFrame()
+
 
 # *************************************** Tabla espais
 def llegir_espais():
