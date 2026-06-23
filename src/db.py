@@ -27,7 +27,7 @@ def llegir_activitats_postgresql():
     consulta = """
         SELECT *
         FROM activitats
-        WHERE estat = 'ACTIVA'
+        WHERE estat IN ('ACTIVA', 'PENDENT D''APROVACIÓ')
         ORDER BY data_inici, hora_inici
     """
 
@@ -173,7 +173,7 @@ def hi_ha_solapament(espai, data_inici, data_fi, dies_setmana, hora_inici, hora_
         SELECT *
         FROM activitats
         WHERE espai = :espai
-          AND estat = 'ACTIVA'
+          AND estat IN ('ACTIVA', 'PENDENT D''APROVACIÓ')
           AND data_inici <= :data_fi
           AND data_fi >= :data_inici
           AND hora_inici < :hora_fi
@@ -331,7 +331,7 @@ def hi_ha_solapament_editant(
         FROM activitats
         WHERE id <> :id
           AND espai = :espai
-          AND estat = 'ACTIVA'
+          AND estat IN ('ACTIVA', 'PENDENT D''APROVACIÓ')
           AND data_inici <= :data_fi
           AND data_fi >= :data_inici
           AND hora_inici < :hora_fi

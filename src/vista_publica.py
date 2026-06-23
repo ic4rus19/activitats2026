@@ -7,14 +7,14 @@ from src.utils import activitat_te_lloc_el_dia
 def mostrar_vista_publica(df_filtrat):
 
     avui = pd.Timestamp.today().normalize()
-    
+
     inici_setmana = avui - pd.Timedelta(days=avui.weekday())
-    fi_setmana = inici_setmana + pd.Timedelta(days=6)    
+    fi_setmana = inici_setmana + pd.Timedelta(days=6)
 
     st.caption(
-    f"Setmana del {inici_setmana.strftime('%d/%m/%Y')} "
-    f"al {fi_setmana.strftime('%d/%m/%Y')}"
-)
+        f"Setmana del {inici_setmana.strftime('%d/%m/%Y')} "
+        f"al {fi_setmana.strftime('%d/%m/%Y')}"
+    )
 
     df_public = df_filtrat[
         df_filtrat["Publicada"].astype(str).str.lower().isin(["si", "sí"])
@@ -48,26 +48,22 @@ def mostrar_vista_publica(df_filtrat):
         if activitats_dia.empty:
             continue
 
-        
         with st.container(border=True):
-                st.markdown(f"## 📅 {noms_dies[dia.weekday()]}")
-                st.caption(dia.strftime("%d/%m/%Y"))
+            st.markdown(f"## 📅 {noms_dies[dia.weekday()]}")
+            st.caption(dia.strftime("%d/%m/%Y"))
 
-                for _, fila in activitats_dia.iterrows():
-                    hora_inici = str(fila["Hora inici"])[:5]
-                    hora_fi = str(fila["Hora fi"])[:5]
+            for _, fila in activitats_dia.iterrows():
+                hora_inici = str(fila["Hora inici"])[:5]
+                hora_fi = str(fila["Hora fi"])[:5]
 
-                    st.markdown(
-                        f"""
-🕒 **{hora_inici} - {hora_fi}**
+                estat = str(fila.get("Estat", "ACTIVA")).strip().upper()
 
-**{fila['Activitat']}**
+                st.markdown(f"🕒 **{hora_inici} - {hora_fi}**")
+                st.markdown(f"**{fila['Activitat']}**")
 
-📍 {fila['Espai']}
+                if estat == "PENDENT D'APROVACIÓ":
+                    st.warning("⏳ Pendent d'aprovació")
 
-
-👥 {fila['Organitza']}
-
----
-"""
-                    )
+                st.markdown(f"📍 {fila['Espai']}")
+                st.markdown(f"👥 {fila['Organitza']}")
+                st.divider()

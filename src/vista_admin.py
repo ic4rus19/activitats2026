@@ -18,7 +18,7 @@ from src.db import (
 from src.utils import text_buit
 
 
-ESTATS_ACTIVITAT = ["ACTIVA", "FINALITZADA"]
+ESTATS_ACTIVITAT = ["ACTIVA", "PENDENT D'APROVACIÓ", "FINALITZADA"]
 
 
 def mostrar_administracio(df):

@@ -21,7 +21,7 @@ def mostrar_calendari(df_filtrat, mes, mesos):
     st.markdown(
         """
 **Llegenda:**  
-🟠 Activitat puntual · 🔵 Activitat fixa · 🟢 Activitat d'estiu
+🟠 Activitat puntual · 🔵 Activitat fixa · 🟢 Activitat d'estiu · ⏳ Pendent d'aprovació
 """
     )
 
@@ -84,8 +84,17 @@ def mostrar_calendari(df_filtrat, mes, mesos):
                                     fila["Origen"]
                                 )
 
+                                estat = str(
+                                    fila.get("Estat", "ACTIVA")
+                                ).strip().upper()
+
+                                marca_estat = ""
+
+                                if estat == "PENDENT D'APROVACIÓ":
+                                    marca_estat = " ⏳"
+
                                 st.caption(
-                                    f"{icona} "
+                                    f"{icona}{marca_estat} "
                                     f"{hora_inici} - {hora_fi} · "
                                     f"{fila['Activitat']}"
                                 )

@@ -55,7 +55,7 @@ def mostrar_agenda_setmanal(df_filtrat, mes, mesos):
 
         dies_a_mostrar = []
 
-        for _, numero_dia in enumerate(setmana):
+        for numero_dia in setmana:
             if numero_dia == 0:
                 continue
 
@@ -112,6 +112,10 @@ def mostrar_agenda_setmanal(df_filtrat, mes, mesos):
 
                 icona = icona_categoria(fila["Origen"])
 
+                estat = str(
+                    fila.get("Estat", "ACTIVA")
+                ).strip().upper()
+
                 organitza = str(fila.get("Organitza", "")).strip()
                 coordinacio = str(fila.get("Coordinació", "")).strip()
                 material = str(fila.get("Material", "")).strip()
@@ -129,6 +133,7 @@ def mostrar_agenda_setmanal(df_filtrat, mes, mesos):
                     "Material": material,
                     "Tasques": tasques,
                     "Categoria": fila["Origen"],
+                    "Estat": estat,
                 })
 
                 contingut = f"""
@@ -140,6 +145,9 @@ def mostrar_agenda_setmanal(df_filtrat, mes, mesos):
 
 👥 {organitza}
 """
+
+                if estat == "PENDENT D'APROVACIÓ":
+                    contingut += "\n\n⏳ **Pendent d'aprovació**"
 
                 if coordinacio and coordinacio.lower() != "nan":
                     contingut += f"\n\n🏛️ Coordinació: {coordinacio}"
