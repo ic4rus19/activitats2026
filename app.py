@@ -2,10 +2,6 @@ import pandas as pd
 import streamlit as st
 import base64
 
-def get_base64_image(path):
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
 from src.vista_publica import mostrar_vista_publica
 from src.vista_interna import mostrar_vista_interna
 from src.vista_calendari import mostrar_calendari
@@ -13,18 +9,20 @@ from src.vista_setmanal import mostrar_agenda_setmanal
 from src.vista_espais import mostrar_ocupacio_espais
 from src.vista_admin import mostrar_administracio
 
-from src.db import (
-    llegir_activitats_app,
-    llegir_espais,
-)
+from src.db import llegir_activitats_app
 
-# /////////////////////FAVICON
+
+def get_base64_image(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+
 st.set_page_config(
     page_title="Gestió d'Activitats Municipals",
     page_icon="img/favicon-32x32.png",
     layout="wide"
 )
-# /////////////////////Escudo presentacion
+
 logo = get_base64_image("img/favicon-32x32.png")
 
 st.html(f"""
@@ -73,19 +71,10 @@ st.html(f"""
 </style>
 """)
 
-# st.title("Gestió d'Activitats Municipals")
-
 df = llegir_activitats_app()
 
 df["Data inici"] = pd.to_datetime(df["Data inici"], errors="coerce")
 df["Data fi"] = pd.to_datetime(df["Data fi"], errors="coerce")
-
-categories = {
-    "Totes": "Totes",
-    "PUNTUAL": "Puntual",
-    "FIXA": "Fixa",
-    "ESTIU": "Estiu",
-}
 
 mesos = {
     "Tots": 0,
@@ -103,8 +92,6 @@ mesos = {
     "Desembre": 12,
 }
 
-espais = llegir_espais()
-
 with st.sidebar:
     st.title("Menú")
 
@@ -118,14 +105,14 @@ with st.sidebar:
 
     opcio_menu = st.radio(
         "Selecciona una vista",
-    [
-        "🏠 Agenda pública setmanal",
-        "📋 Gestió interna",
-        "📅 Calendari mensual",
-        "🗓️ Agenda setmanal",
-        "🏢 Gestió d'espais",
-        "🛠️ Administració",
-    ]
+        [
+            "🏠 Agenda pública setmanal",
+            "📋 Gestió interna",
+            "📅 Calendari mensual",
+            "🗓️ Agenda setmanal",
+            "🏢 Gestió d'espais",
+            "🛠️ Administració",
+        ]
     )
 
     if opcio_menu != "🛠️ Administració":
@@ -133,49 +120,16 @@ with st.sidebar:
 
         st.subheader("Filtres")
 
-        origen_mostrar = st.selectbox(
-            "Categoria",
-            list(categories.values())
-        )
-
-        espai = st.selectbox(
-            "Espai",
-            ["Tots"] + espais
-        )
-
-        publicada = st.selectbox(
-            "Publicada",
-            ["Totes"] + sorted(df["Publicada"].dropna().unique().tolist())
-        )
-
         mes = st.selectbox(
             "Mes",
             list(mesos.keys())
         )
 
     else:
-        origen_mostrar = "Totes"
-        espai = "Tots"
-        publicada = "Totes"
         mes = "Tots"
 
-origen = None
-
-for clau, valor in categories.items():
-    if valor == origen_mostrar:
-        origen = clau
-        break
 
 df_filtrat = df.copy()
-
-if origen != "Totes":
-    df_filtrat = df_filtrat[df_filtrat["Origen"] == origen]
-
-if espai != "Tots":
-    df_filtrat = df_filtrat[df_filtrat["Espai"] == espai]
-
-if publicada != "Totes":
-    df_filtrat = df_filtrat[df_filtrat["Publicada"] == publicada]
 
 if mes != "Tots":
     mes_num = mesos[mes]
@@ -189,6 +143,7 @@ if mes != "Tots":
         (df_filtrat["Data fi"] >= inici_mes)
     ]
 
+
 titol_vista = {
     "🏠 Agenda pública setmanal": "Agenda pública setmanal",
     "📋 Gestió interna": "Gestió interna",
@@ -199,9 +154,6 @@ titol_vista = {
 }
 
 st.subheader(titol_vista[opcio_menu])
-
-# st.header(titols[opcio_menu])
-# st.divider()
 
 if opcio_menu == "🏠 Agenda pública setmanal":
     mostrar_vista_publica(df)

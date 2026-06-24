@@ -88,16 +88,20 @@ def mostrar_calendari(df_filtrat, mes, mesos):
                                     fila.get("Estat", "ACTIVA")
                                 ).strip().upper()
 
-                                marca_estat = ""
-
-                                if estat == "PENDENT D'APROVACIÓ":
-                                    marca_estat = " ⏳"
-
-                                st.caption(
-                                    f"{icona}{marca_estat} "
+                                text_activitat = (
+                                    f"{icona} "
                                     f"{hora_inici} - {hora_fi} · "
                                     f"{fila['Activitat']}"
                                 )
+
+                                if estat == "PENDENT D'APROVACIÓ":
+                                    st.warning(
+                                        f"⏳ {text_activitat}"
+                                    )
+                                else:
+                                    st.caption(
+                                        text_activitat
+                                    )
 
                                 st.caption(
                                     f"📍 {fila['Espai']}"

@@ -58,7 +58,7 @@ def mostrar_administracio(df):
     )
 
     opcio_edit = st.selectbox(
-        "Selecciona una activitat per editar",
+        "",
         df_admin_edit["text_opcio"].tolist(),
         key="select_editar_activitat",
     )

@@ -146,9 +146,6 @@ def mostrar_agenda_setmanal(df_filtrat, mes, mesos):
 👥 {organitza}
 """
 
-                if estat == "PENDENT D'APROVACIÓ":
-                    contingut += "\n\n⏳ **Pendent d'aprovació**"
-
                 if coordinacio and coordinacio.lower() != "nan":
                     contingut += f"\n\n🏛️ Coordinació: {coordinacio}"
 
@@ -160,6 +157,9 @@ def mostrar_agenda_setmanal(df_filtrat, mes, mesos):
 
                 with st.container(border=True):
                     st.markdown(contingut)
+
+                    if estat == "PENDENT D'APROVACIÓ":
+                        st.warning("⏳ Pendent d'aprovació")
 
     df_informe = pd.DataFrame(files_informe)
 
