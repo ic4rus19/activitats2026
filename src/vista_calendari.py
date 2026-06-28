@@ -106,3 +106,4 @@ def mostrar_calendari(df_filtrat, mes, mesos):
                                 st.caption(
                                     f"📍 {fila['Espai']}"
                                 )
+                                st.markdown("---")
