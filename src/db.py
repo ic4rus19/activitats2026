@@ -402,3 +402,65 @@ def llegir_espais():
     df = pd.read_sql(consulta, engine)
 
     return df["nom"].tolist()
+
+def llegir_espais_admin():
+    engine = get_engine()
+
+    consulta = """
+        SELECT id, nom, actiu
+        FROM espais
+        ORDER BY nom
+    """
+
+    return pd.read_sql(consulta, engine)
+
+
+def inserir_espai(nom):
+    engine = get_engine()
+
+    consulta = text("""
+        INSERT INTO espais (nom, actiu)
+        VALUES (:nom, true)
+    """)
+
+    with engine.begin() as conn:
+        conn.execute(
+            consulta,
+            {"nom": nom}
+        )
+        
+def actualitzar_espai(id_espai, nom):
+    engine = get_engine()
+
+    consulta = text("""
+        UPDATE espais
+        SET nom = :nom
+        WHERE id = :id
+    """)
+
+    with engine.begin() as conn:
+        conn.execute(
+            consulta,
+            {
+                "id": id_espai,
+                "nom": nom,
+            }
+        )
+        
+def actualitzar_estat_espai(id_espai, actiu):
+    engine = get_engine()
+
+    consulta = text("""
+        UPDATE espais
+        SET actiu = :actiu
+        WHERE id = :id
+    """)
+
+    with engine.begin() as conn:
+        conn.execute(
+            consulta,
+            {
+                "id": id_espai,
+                "actiu": actiu,
+            }
+        )
