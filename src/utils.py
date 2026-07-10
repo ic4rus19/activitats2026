@@ -1,5 +1,7 @@
 import pandas as pd
 
+import streamlit as st
+
 def activitat_te_lloc_el_dia(fila, dia):
     dies_setmana = str(fila.get("Dies setmana", "")).strip().lower()
 
@@ -60,3 +62,39 @@ def text_buit(valor):
 
     return str(valor).strip()
 
+
+
+def mostrar_titol_modul(titol: str, color: str = "blue"):
+    colors = {
+        "blue": {
+            "bg": "#e0f2fe",
+            "border": "#bae6fd",
+            "text": "#0369a1",
+        },
+        "green": {
+            "bg": "#ecfdf5",
+            "border": "#bbf7d0",
+            "text": "#166534",
+        },
+    }
+
+    c = colors[color]
+
+    st.markdown(
+        f"""
+        <div style="
+            background:{c['bg']};
+            border:1px solid {c['border']};
+            color:{c['text']};
+            padding:14px;
+            border-radius:12px;
+            font-size:22px;
+            font-weight:700;
+            text-align:center;
+            margin-bottom:18px;
+        ">
+            {titol}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )

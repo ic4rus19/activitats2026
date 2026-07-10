@@ -7,8 +7,13 @@ from src.db import (
     llegir_espais_admin,
 )
 
+from src.utils import mostrar_titol_modul
 
 def mostrar_admin_espais():
+    mostrar_titol_modul(
+    "🏢 Gestió d'espais",
+    "green",
+)
     st.write("Gestió del catàleg d'espais disponibles.")
 
     st.subheader("➕ Nou espai")
