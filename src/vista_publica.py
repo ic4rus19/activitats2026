@@ -49,9 +49,11 @@ def mostrar_vista_publica(df_filtrat):
             continue
 
         with st.container(border=True):
-            st.markdown(f"## 📅 {noms_dies[dia.weekday()]}")
-            st.caption(dia.strftime("%d/%m/%Y"))
-
+            st.markdown(
+            f"<div style='font-size:20px; font-weight:bold; color:#c62828;'>• {noms_dies[dia.weekday()]} •</div>"
+            f"<div style='font-size:24px; font-weight:bold; color:#333;'>{dia.strftime('%d/%m/%Y')}</div>",
+            unsafe_allow_html=True
+                        )
             for _, fila in activitats_dia.iterrows():
                 hora_inici = str(fila["Hora inici"])[:5]
                 hora_fi = str(fila["Hora fi"])[:5]
